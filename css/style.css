@@ -4,7 +4,7 @@ body, html {
     color: #ffffff;
     margin: 0;
     padding: 0;
-    height: 100%;
+    height: 100%; 
 }
 
 header {
@@ -19,12 +19,13 @@ header {
 }
 
 header h1 {
-    padding-right: 70%;
+    padding-right: 15px;
 }
 
 .profile-content {
-    display: flex;
+    display:flex;
     align-items: center;
+    padding-right: 15px;
 }
 
 .profile {
@@ -105,6 +106,10 @@ header h1 {
     .content {
         margin-left: 0;
     }
+
+    form {
+        display: grid;
+    }
 }
 
 /* Additional Styles */
@@ -163,4 +168,27 @@ button:hover {
 
 .skills, .work, .portfolio {
     display: none;
+}
+
+/* Form style */
+
+form {
+    display: grid;
+    gap: 2px;
+    align-items: center;
+    padding-right: 8%;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
 }
