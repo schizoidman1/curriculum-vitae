@@ -22,6 +22,11 @@ header h1 {
     padding-right: 15px;
 }
 
+.socials img {
+    display: table-column;
+    width: 35%;
+}
+
 .profile-content {
     display:flex;
     align-items: center;
@@ -85,6 +90,12 @@ header h1 {
 
     .profile {
         margin-bottom: 20px;
+    }
+
+    .socials img {
+        display: inline;
+        width: 15%;
+        padding-right: 10%;
     }
 
     .side-menu {
