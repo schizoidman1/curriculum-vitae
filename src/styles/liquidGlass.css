@@ -1,0 +1,320 @@
+/* ===========================
+   Liquid Glass Design System
+
+   SVG-filter-based distortion approach inspired by Apple WWDC 2025.
+
+   Architecture (for .liquid-glass and .liquid-glass-elevated):
+     Element itself  → position: relative, isolation: isolate, outer glow
+     ::before        → tint layer + inner shadow (z-index: 0)
+     ::after         → backdrop-filter blur + SVG distortion (z-index: -1)
+     .liquid-glass-content → children wrapper (z-index: 10)
+
+   Lighter variants (.liquid-glass-subtle, .liquid-glass-bubble)
+   remain single-layer for performance on small/inline elements.
+   =========================== */
+
+/* =========================================
+   BASE — .liquid-glass
+   Standard card / panel surface
+   ========================================= */
+.liquid-glass {
+  position: relative;
+  isolation: isolate;
+  border-radius: var(--glass-border-radius);
+  overflow: hidden;
+  box-shadow: 0px 0px 21px -8px rgba(255, 255, 255, 0.3);
+}
+
+/* Tint + inner shadow layer */
+.liquid-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: var(--glass-border-radius);
+  box-shadow: inset 0 0 12px -2px rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0);
+  pointer-events: none;
+}
+
+/* Backdrop blur + fractal distortion layer */
+.liquid-glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: var(--glass-border-radius);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  filter: url(#glass-distortion);
+  -webkit-filter: url(#glass-distortion);
+  isolation: isolate;
+  pointer-events: none;
+}
+
+/* =========================================
+   ELEVATED — .liquid-glass-elevated
+   Prominent surface with heavier distortion
+   ========================================= */
+.liquid-glass-elevated {
+  position: relative;
+  isolation: isolate;
+  border-radius: var(--glass-border-radius);
+  overflow: hidden;
+  box-shadow: 0px 0px 30px -6px rgba(255, 255, 255, 0.35);
+}
+
+.liquid-glass-elevated::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: var(--glass-border-radius);
+  box-shadow: inset 0 0 16px -2px rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.02);
+  pointer-events: none;
+}
+
+.liquid-glass-elevated::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: var(--glass-border-radius);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  filter: url(#glass-distortion-heavy);
+  -webkit-filter: url(#glass-distortion-heavy);
+  isolation: isolate;
+  pointer-events: none;
+}
+
+/* =========================================
+   CONTENT WRAPPER
+   Required inside .liquid-glass / .liquid-glass-elevated
+   so children render above the pseudo-element layers.
+   ========================================= */
+.liquid-glass-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  padding: 2.5rem 3rem !important;
+  color: white;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+@media (min-width: 768px) {
+  .liquid-glass-content {
+    padding: 3rem 3.5rem !important;
+  }
+}
+
+/* =========================================
+   SUBTLE — .liquid-glass-subtle
+   Lightweight single-layer glass for tags,
+   badges, and small inline elements.
+   No SVG filter — just backdrop blur.
+   ========================================= */
+.liquid-glass-subtle {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.02) 50%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--glass-border-radius);
+  overflow: hidden;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* =========================================
+   BUBBLE — .liquid-glass-bubble
+   Circular glass surface with radial highlight.
+   Uses the light SVG distortion filter via ::after.
+   ========================================= */
+.liquid-glass-bubble {
+  position: relative;
+  isolation: isolate;
+  border-radius: 50%;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    0px 0px 14px -4px rgba(255, 255, 255, 0.25);
+}
+
+.liquid-glass-bubble::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: 50%;
+  box-shadow:
+    inset 0 0 10px -2px rgba(255, 255, 255, 0.6),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0);
+  pointer-events: none;
+}
+
+.liquid-glass-bubble::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 50%;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  filter: url(#glass-distortion-light);
+  -webkit-filter: url(#glass-distortion-light);
+  isolation: isolate;
+  pointer-events: none;
+}
+
+/* =========================================
+   REFLECTION — additive highlight ellipse
+   Combine with .liquid-glass-bubble only
+   (main glass/elevated use both pseudos).
+   ========================================= */
+.liquid-glass-reflection {
+  overflow: hidden;
+}
+
+/* Rendered via an extra nested element since
+   ::before is taken by the bubble layers */
+
+/* =========================================
+   GLASS TEXT — translucent glass refraction
+
+   Uses background-clip:text with a diagonal
+   gradient to simulate light passing through
+   a glass surface, matching Apple Liquid Glass.
+   ========================================= */
+.liquid-glass-text {
+  font-family: var(--font-display);
+  background: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(255, 255, 255, 0.35) 25%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(255, 255, 255, 0.25) 75%,
+    rgba(255, 255, 255, 0.65) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.15);
+  filter:
+    drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25))
+    drop-shadow(0 0 30px rgba(255, 255, 255, 0.06));
+}
+
+/* Inside glass panels the text should be more legible —
+   use a brighter fill since the panel already provides depth */
+.liquid-glass-content .liquid-glass-text {
+  background: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.5) 30%,
+    rgba(255, 255, 255, 0.7) 60%,
+    rgba(255, 255, 255, 0.4) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* =========================================
+   GLASS BUTTON — interactive button surface
+   ========================================= */
+.liquid-glass-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.liquid-glass-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.liquid-glass-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+}
+
+/* =========================================
+   INTERACTIVE — hover / active states
+   ========================================= */
+.liquid-glass-interactive {
+  cursor: pointer;
+  transition:
+    transform var(--transition-smooth),
+    box-shadow var(--transition-smooth);
+}
+
+.liquid-glass-interactive:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow:
+    0px 0px 28px -4px rgba(255, 255, 255, 0.4);
+}
+
+.liquid-glass-interactive:active {
+  transform: translateY(0) scale(0.99);
+}
+
+/* =========================================
+   PULSE — breathing glow animation
+   ========================================= */
+@keyframes glass-pulse {
+  0%, 100% {
+    box-shadow:
+      0px 0px 21px -8px rgba(255, 255, 255, 0.3),
+      0 0 0 0 rgba(255, 255, 255, 0);
+  }
+  50% {
+    box-shadow:
+      0px 0px 21px -8px rgba(255, 255, 255, 0.3),
+      0 0 0 8px rgba(255, 255, 255, 0.05);
+  }
+}
+
+.liquid-glass-pulse {
+  animation: glass-pulse 2.5s ease-in-out infinite;
+}
+
+/* =========================================
+   SHIMMER — loading state
+   ========================================= */
+@keyframes glass-shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.liquid-glass-shimmer {
+  background-size: 200% 100%;
+  animation: glass-shimmer 3s ease-in-out infinite;
+}
+
+/* =========================================
+   FADE IN — text reveal inside bubbles
+   ========================================= */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

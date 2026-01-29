@@ -1,0 +1,120 @@
+@import "tailwindcss";
+@import "./styles/liquidGlass.css";
+
+/* ===========================
+   CSS Custom Properties
+   =========================== */
+:root {
+  --color-bg-start: #A8C4E5;
+  --color-bg-end: #7BA3D0;
+  --color-bg-dark: #121212;
+  --color-glass-border: rgba(255, 255, 255, 0.2);
+  --color-glass-highlight: rgba(255, 255, 255, 0.3);
+  --color-glass-shadow: rgba(0, 0, 0, 0.1);
+  --color-text-primary: #ffffff;
+  --color-text-secondary: rgba(255, 255, 255, 0.7);
+  --color-accent: #88b4e0;
+
+  --glass-blur: 20px;
+  --glass-saturation: 180%;
+  --glass-border-radius: 24px;
+
+  --transition-smooth: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-spring: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --font-display: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ===========================
+   Base Reset
+   =========================== */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--color-bg-dark);
+  color: var(--color-text-primary);
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Lock scrolling during intro phases.
+   Toggled via JS — removed when curriculum is active. */
+html.scroll-locked,
+html.scroll-locked body,
+html.scroll-locked #root {
+  overflow: hidden;
+  height: 100vh;
+  height: 100dvh;
+}
+
+/* ===========================
+   Accessibility
+   =========================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ===========================
+   Selection
+   =========================== */
+::selection {
+  background: rgba(136, 180, 224, 0.3);
+  color: #ffffff;
+}
+
+/* ===========================
+   Scrollbar (horizontal scroll)
+   =========================== */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
