@@ -15,7 +15,7 @@ import GlassPanel from '../ui/GlassPanel'
  * @param {string} className - Additional CSS classes
  */
 const GlassCard = forwardRef(function GlassCard(
-  { title, subtitle, children, footer, expandable = false, className = '', ...props },
+  { title, subtitle, children, footer, expandable = false, compact = false, className = '', ...props },
   ref
 ) {
   return (
@@ -24,28 +24,29 @@ const GlassCard = forwardRef(function GlassCard(
       variant="elevated"
       interactive={expandable}
       className={className}
+      contentClassName={compact ? '!p-5 md:!p-6' : ''}
       {...props}
     >
       {/* Header */}
       {(title || subtitle) && (
-        <div className="mb-5">
+        <div className={compact ? 'mb-3' : 'mb-5'}>
           {title && (
-            <h3 className="liquid-glass-text text-2xl md:text-3xl font-semibold mb-2">
+            <h3 className={`liquid-glass-text font-semibold ${compact ? 'text-lg md:text-xl mb-1' : 'text-2xl md:text-3xl mb-2'}`}>
               {title}
             </h3>
           )}
           {subtitle && (
-            <p className="text-base text-white/50">{subtitle}</p>
+            <p className={`text-white/50 ${compact ? 'text-sm' : 'text-base'}`}>{subtitle}</p>
           )}
         </div>
       )}
 
       {/* Body */}
-      <div className="text-white/80 leading-relaxed text-base">{children}</div>
+      <div className={`text-white/80 leading-relaxed ${compact ? 'text-sm' : 'text-base'}`}>{children}</div>
 
       {/* Footer */}
       {footer && (
-        <div className="mt-6 pt-5 pb-2 border-t border-white/10">{footer}</div>
+        <div className={`border-t border-white/10 ${compact ? 'mt-4 pt-3 pb-1' : 'mt-6 pt-5 pb-2'}`}>{footer}</div>
       )}
     </GlassPanel>
   )

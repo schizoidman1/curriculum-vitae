@@ -22,13 +22,17 @@ export default function Background() {
       [PHASES.CONVERGENCE]: { start: '#A8C4E5', end: '#7BA3D0' },
       [PHASES.CENTRAL_BUBBLE]: { start: '#9BBCDE', end: '#6F97C4' },
       [PHASES.EXPLOSION]: { start: '#8AADD4', end: '#5E88B5' },
-      [PHASES.CURRICULUM]: { start: '#121212', end: '#121212' },
+      // Deep ocean gradient - dark blue depths fading to lighter surface
+      [PHASES.CURRICULUM]: { start: '#0a1628', end: '#0d2847' },
     }
 
     const { start, end } = colors[phase] || colors[PHASES.ENTRY]
 
+    // For curriculum, use a vertical gradient (darker at bottom, lighter at top)
+    const gradientDirection = phase === PHASES.CURRICULUM ? '180deg' : '135deg'
+
     gsap.to(bgRef.current, {
-      background: `linear-gradient(135deg, ${start} 0%, ${end} 100%)`,
+      background: `linear-gradient(${gradientDirection}, ${start} 0%, ${end} 100%)`,
       duration: phase === PHASES.ENTRY ? 0 : 1.2,
       ease: 'power2.inOut',
     })

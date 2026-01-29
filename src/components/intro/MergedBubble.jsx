@@ -4,6 +4,7 @@ import * as THREE from 'three'
 import { Html } from '@react-three/drei'
 import liquidGlassVert from '../../shaders/liquidGlass.vert?raw'
 import liquidGlassFrag from '../../shaders/liquidGlass.frag?raw'
+import useAudio from '../../hooks/useAudio'
 
 /**
  * Large central bubble that appears in Phase 3.
@@ -18,6 +19,7 @@ import liquidGlassFrag from '../../shaders/liquidGlass.frag?raw'
 export default function MergedBubble({ visible = false, scale = 1, onClick }) {
   const meshRef = useRef()
   const hovered = useRef(false)
+  const { playSfx } = useAudio()
 
   // Responsive base scale
   const [baseScale, setBaseScale] = useState(2.5)
@@ -80,6 +82,7 @@ export default function MergedBubble({ visible = false, scale = 1, onClick }) {
         onPointerOver={() => {
           hovered.current = true
           document.body.style.cursor = 'pointer'
+          playSfx('hoverBubble', 0.3)
         }}
         onPointerOut={() => {
           hovered.current = false
@@ -100,7 +103,7 @@ export default function MergedBubble({ visible = false, scale = 1, onClick }) {
       {/* HTML text overlay inside the bubble */}
       <Html center distanceFactor={6} style={{ pointerEvents: 'none' }}>
         <div className="select-none text-center">
-          <p className="liquid-glass-text text-xl md:text-3xl font-light tracking-wide opacity-0 animate-[fadeIn_1s_ease_0.5s_forwards]">
+          <p className="liquid-glass-text text-3xl md:text-8xl font-light tracking-wide opacity-0 animate-[fadeIn_1s_ease_0.5s_forwards]">
             Acessar
           </p>
         </div>

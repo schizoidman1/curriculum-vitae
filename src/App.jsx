@@ -3,8 +3,8 @@ import useAppStore, { PHASES } from './stores/appStore'
 import Background from './components/layout/Background'
 import IntroSequence from './components/intro/IntroSequence'
 import ParticleField from './components/effects/ParticleField'
-import MouseSpotlight from './components/effects/MouseSpotlight'
 import NoiseOverlay from './components/effects/NoiseOverlay'
+import FluidCursor from './components/effects/FluidCursor'
 import ScrollProgress from './components/effects/ScrollProgress'
 import SoundToggle from './components/ui/SoundToggle'
 
@@ -41,8 +41,8 @@ export default function App() {
 
       {/* Ambient effects layer */}
       <ParticleField />
-      <MouseSpotlight />
       <NoiseOverlay />
+      <FluidCursor />
 
       {/* Scroll progress indicator and sound toggle (curriculum phase only) */}
       {phase === PHASES.CURRICULUM && (

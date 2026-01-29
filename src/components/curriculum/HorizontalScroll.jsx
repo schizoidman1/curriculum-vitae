@@ -110,7 +110,7 @@ export default function HorizontalScroll() {
                 className="group flex flex-col items-center"
                 {...clickSoundProps}
               >
-                <div className="liquid-glass-bubble w-14 h-14 flex items-center justify-center overflow-hidden">
+                <div className="liquid-glass-bubble w-14 h-14 mt-8 flex items-center justify-center overflow-hidden">
                   <img
                     src={aff.image}
                     alt={aff.name}
@@ -127,7 +127,7 @@ export default function HorizontalScroll() {
 
         {/* --- EXPERIENCE --- */}
         <section className="px-5 py-16">
-          <LiquidGlassText as="h2" className="text-xl font-semibold mb-6 text-center">
+          <LiquidGlassText as="h2" className="text-3xl font-semibold mb-6 text-center">
             Experiência
           </LiquidGlassText>
           <Timeline items={experience} />
@@ -135,7 +135,7 @@ export default function HorizontalScroll() {
 
         {/* --- PROJECTS --- */}
         <section className="px-5 py-16">
-          <LiquidGlassText as="h2" className="text-xl font-semibold mb-6 text-center">
+          <LiquidGlassText as="h2" className="text-3xl font-semibold mb-6 text-center">
             Projetos
           </LiquidGlassText>
           <div className="flex flex-col gap-4">
@@ -176,14 +176,17 @@ export default function HorizontalScroll() {
           </LiquidGlassText>
           <GlassPanel variant="default">
             <div className="flex flex-col gap-4 items-center">
-              <a
-                href={`mailto:${personal.email}`}
-                className="liquid-glass-subtle px-4 py-2 rounded-full text-white/80 flex items-center gap-2 text-xs"
-                {...clickSoundProps}
-              >
-                <Mail size={14} />
-                {personal.email}
-              </a>
+              {personal.emails.map((email) => (
+                <a
+                  key={email}
+                  href={`mailto:${email}`}
+                  className="liquid-glass-subtle px-4 py-2 rounded-full text-white/80 flex items-center gap-2 text-xs"
+                  {...clickSoundProps}
+                >
+                  <Mail size={14} />
+                  {email}
+                </a>
+              ))}
 
               <div className="flex gap-3">
                 {Object.entries(personal.social).map(([platform, url]) => {
@@ -264,36 +267,49 @@ export default function HorizontalScroll() {
       >
         <div data-anim="about-content" className="w-full max-w-4xl mx-auto">
           <Tilt maxTilt={4} scale={1.01}>
-            <GlassPanel variant="elevated" className="mb-10">
-              <p className="text-white/80 leading-relaxed text-xl mb-10">
+            <GlassPanel variant="elevated">
+              <p className="text-white/80 leading-relaxed text-xl">
                 {personal.bio}
               </p>
             </GlassPanel>
+          </Tilt>
+        </div>
+      </section>
 
-            <div className="flex flex-wrap justify-center gap-10 mt-4">
-              {affiliations.map((aff) => (
-                <a
-                  key={aff.id}
-                  href={aff.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex flex-col items-center"
-                  {...clickSoundProps}
-                >
-                  <div className="liquid-glass-bubble w-28 h-28 flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105">
+      {/* --- AFFILIATIONS --- */}
+      <section
+        id="affiliations"
+        className="relative min-h-screen flex items-center justify-center px-8 py-24 mb-16"
+      >
+        <div data-anim="affiliations-content" className="w-full max-w-4xl mx-auto text-center">
+          <LiquidGlassText as="h2" className="text-5xl font-semibold mb-16">
+            Filiações
+          </LiquidGlassText>
+          <div className="flex flex-wrap justify-center gap-16">
+            {affiliations.map((aff) => (
+              <a
+                key={aff.id}
+                href={aff.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex flex-col items-center"
+                {...clickSoundProps}
+              >
+                <Tilt maxTilt={8} scale={1.05}>
+                  <div className="liquid-glass-bubble w-32 h-32 flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105">
                     <img
                       src={aff.image}
                       alt={aff.name}
                       className="w-full h-full object-cover relative z-10 rounded-full"
                     />
                   </div>
-                  <p className="text-center text-sm text-white/50 mt-3 group-hover:text-white/80 transition-colors">
-                    {aff.name}
-                  </p>
-                </a>
-              ))}
-            </div>
-          </Tilt>
+                </Tilt>
+                <p className="text-center text-lg text-white/50 mt-4 group-hover:text-white/80 transition-colors">
+                  {aff.name}
+                </p>
+              </a>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -303,7 +319,7 @@ export default function HorizontalScroll() {
           {/* EXPERIENCE */}
           <section
             data-h-section
-            className="flex-shrink-0 w-screen h-screen flex items-center justify-center px-16 lg:px-24"
+            className="shrink-0 w-screen h-screen flex items-center justify-center px-16 lg:px-24"
             aria-label="Experiência"
           >
             <div className="w-full max-w-6xl">
@@ -321,7 +337,7 @@ export default function HorizontalScroll() {
           {/* PROJECTS */}
           <section
             data-h-section
-            className="flex-shrink-0 w-screen h-screen flex items-center justify-center px-16 lg:px-24"
+            className="shrink-0 w-screen h-screen flex items-center justify-center px-16 lg:px-24"
             aria-label="Projetos"
           >
             <div className="w-full max-w-6xl">
@@ -330,7 +346,7 @@ export default function HorizontalScroll() {
                   Projetos
                 </LiquidGlassText>
               </div>
-              <div className="grid grid-cols-2 gap-8">
+              <div className="grid grid-cols-2 gap-5">
                 {projects.map((project) => (
                   <div key={project.id} data-h-item>
                     <a
@@ -344,12 +360,13 @@ export default function HorizontalScroll() {
                         <GlassCard
                           title={project.title}
                           expandable
+                          compact
                           footer={
-                            <div className="flex flex-wrap gap-2">
+                            <div className="flex flex-wrap gap-1.5">
                               {project.technologies.map((tech) => (
                                 <span
                                   key={tech}
-                                  className="liquid-glass-subtle text-xs px-3 py-1.5 rounded-full text-white/70"
+                                  className="liquid-glass-subtle text-[11px] px-2 py-1 rounded-full text-white/70"
                                 >
                                   {tech}
                                 </span>
@@ -357,7 +374,7 @@ export default function HorizontalScroll() {
                             </div>
                           }
                         >
-                          <p className="text-base">{project.description}</p>
+                          {project.description}
                         </GlassCard>
                       </Tilt>
                     </a>
@@ -370,12 +387,12 @@ export default function HorizontalScroll() {
           {/* CONTACT */}
           <section
             data-h-section
-            className="flex-shrink-0 w-screen h-screen flex items-center justify-center px-16 lg:px-24"
+            className="shrink-0 w-screen h-screen flex items-center justify-center px-16 lg:px-24"
             aria-label="Contato"
           >
             <div className="text-center">
               <div data-h-heading>
-                <LiquidGlassText as="h2" className="text-5xl font-semibold mb-12">
+                <LiquidGlassText as="h2" className="text-3xl font-semibold mb-12">
                   Contato
                 </LiquidGlassText>
               </div>
@@ -384,14 +401,19 @@ export default function HorizontalScroll() {
                 <Tilt maxTilt={4} scale={1.01}>
                   <GlassPanel variant="elevated" className="inline-block">
                     <div className="flex flex-col gap-6 items-center">
-                      <a
-                        href={`mailto:${personal.email}`}
-                        className="liquid-glass-interactive liquid-glass-subtle px-8 py-4 rounded-full text-white/80 hover:text-white transition-colors flex items-center gap-3 text-lg"
-                        {...clickSoundProps}
-                      >
-                        <Mail size={18} />
-                        {personal.email}
-                      </a>
+                      <div className="flex flex-col gap-3">
+                        {personal.emails.map((email) => (
+                          <a
+                            key={email}
+                            href={`mailto:${email}`}
+                            className="liquid-glass-interactive liquid-glass-subtle px-8 py-4 rounded-full text-white/80 hover:text-white transition-colors flex items-center gap-3 text-lg"
+                            {...clickSoundProps}
+                          >
+                            <Mail size={18} />
+                            {email}
+                          </a>
+                        ))}
+                      </div>
 
                       <div className="flex gap-8 mt-4">
                         {Object.entries(personal.social).map(([platform, url]) => {

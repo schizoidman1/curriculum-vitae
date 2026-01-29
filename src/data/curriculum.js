@@ -6,7 +6,7 @@ const curriculum = {
     name: 'Lucca Quintas',
     title: 'Bacharel em Ciência da Computação',
     location: 'Vitória, ES',
-    email: 'luccaquintas@gmail.com',
+    emails: ['luccaquintas@gmail.com', 'lucca.quintas@webhorizon.com.br'],
     phone: '(27) 9607-7566',
     website: null,
     avatar: '/avatar.png',
@@ -141,7 +141,6 @@ const curriculum = {
       id: 'aff-2',
       name: 'Web Horizon',
       image: '/affiliations/webhorizon.png',
-      link: 'https://webhorizon.com.br',
     },
   ],
 }

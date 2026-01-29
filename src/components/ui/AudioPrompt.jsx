@@ -21,7 +21,7 @@ export default function AudioPrompt() {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[var(--color-bg-dark)] cursor-pointer"
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-(--color-bg-dark) cursor-pointer"
       onClick={handleEnter}
       role="button"
       tabIndex={0}
