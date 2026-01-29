@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import { Howler } from 'howler'
 import useAppStore, { PHASES } from '../../stores/appStore'
 
 /**
@@ -13,6 +14,10 @@ export default function AudioPrompt() {
   const skipIntro = useAppStore((s) => s.skipIntro)
 
   const handleEnter = useCallback(() => {
+    // Unlock Web Audio context for Safari/iOS
+    if (Howler.ctx && Howler.ctx.state === 'suspended') {
+      Howler.ctx.resume()
+    }
     setAudioEnabled(true)
     setPhase(PHASES.EMERGENCE)
   }, [setAudioEnabled, setPhase])
