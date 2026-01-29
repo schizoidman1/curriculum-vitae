@@ -1,6 +1,27 @@
 import { useCallback } from 'react'
-import { Howler } from 'howler'
+import { Howl, Howler } from 'howler'
 import useAppStore, { PHASES } from '../../stores/appStore'
+
+/**
+ * Unlock Web Audio for Safari/iOS by playing a silent buffer.
+ * Must be called during a user gesture (click/tap).
+ */
+function unlockAudio() {
+  // Resume suspended context
+  if (Howler.ctx && Howler.ctx.state === 'suspended') {
+    Howler.ctx.resume()
+  }
+
+  // Play a short silent sound to fully unlock on Safari/iOS
+  const silentSound = new Howl({
+    src: ['data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA/+M4wAAAAAAAAAAAAEluZm8AAAAPAAAAAgAAAbAAqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//////////////////////////////////////////////////////////////////8AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAAAAAAAAAAAAbD/k7PSAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/+M4wAADWAFYAAABACquVOF/kRAKAABBXv/jOMACAYAgAgAAADv/4xDAAwBAA0gAAAAAAANIAAAA'],
+    volume: 0,
+    onend: function() {
+      this.unload()
+    }
+  })
+  silentSound.play()
+}
 
 /**
  * Phase 0: Entry screen.
@@ -14,10 +35,7 @@ export default function AudioPrompt() {
   const skipIntro = useAppStore((s) => s.skipIntro)
 
   const handleEnter = useCallback(() => {
-    // Unlock Web Audio context for Safari/iOS
-    if (Howler.ctx && Howler.ctx.state === 'suspended') {
-      Howler.ctx.resume()
-    }
+    unlockAudio()
     setAudioEnabled(true)
     setPhase(PHASES.EMERGENCE)
   }, [setAudioEnabled, setPhase])
