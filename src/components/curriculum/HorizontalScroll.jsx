@@ -9,12 +9,17 @@ import {
 } from 'lucide-react'
 import useHorizontalScroll from '../../hooks/useHorizontalScroll'
 import useCurriculumSounds from '../../hooks/useCurriculumSounds'
+import useEasterEggs from '../../hooks/useEasterEggs'
 import useAppStore, { PHASES } from '../../stores/appStore'
 import GlassCard from './GlassCard'
 import GlassPanel from '../ui/GlassPanel'
 import LiquidGlassText from '../ui/LiquidGlassText'
 import Tilt from '../ui/Tilt'
 import MagneticIcon from '../ui/MagneticIcon'
+import Carousel3D from '../ui/Carousel3D'
+import RevealText from '../ui/RevealText'
+import ProjectCard3D from '../ui/ProjectCard3D'
+import SkillsVisualization from './SkillsVisualization'
 import Timeline from './Timeline'
 import curriculum from '../../data/curriculum'
 
@@ -45,10 +50,11 @@ export default function HorizontalScroll() {
 
   const { wrapperRef, trackRef } = useHorizontalScroll(isActive && !isMobile)
   const { clickSoundProps } = useCurriculumSounds()
+  const { handleAvatarClick } = useEasterEggs()
 
   if (!isActive) return null
 
-  const { personal, experience, projects, affiliations } = curriculum
+  const { personal, experience, projects, affiliations, recommendations, skills } = curriculum
 
   // ============================================
   // MOBILE LAYOUT - Fully vertical
@@ -59,7 +65,10 @@ export default function HorizontalScroll() {
         {/* --- HERO --- */}
         <section className="min-h-[85vh] flex items-center justify-center px-5 py-10 relative">
           <div className="flex flex-col items-center text-center gap-3">
-            <div className="liquid-glass-bubble w-24 h-24 flex items-center justify-center overflow-hidden">
+            <div
+              className="liquid-glass-bubble w-24 h-24 flex items-center justify-center overflow-hidden cursor-pointer"
+              onClick={handleAvatarClick}
+            >
               {personal.avatar ? (
                 <img
                   src={personal.avatar}
@@ -169,6 +178,57 @@ export default function HorizontalScroll() {
           </div>
         </section>
 
+        {/* --- RECOMMENDATIONS --- */}
+        <section className="px-5 py-16">
+          <LiquidGlassText as="h2" className="text-3xl font-semibold mb-6 text-center">
+            Recomendações
+          </LiquidGlassText>
+          <Carousel3D
+            items={recommendations}
+            autoRotate
+            autoRotateInterval={6000}
+            renderItem={(rec) => (
+              <GlassPanel variant="default">
+                <div className="flex items-start gap-3">
+                  <div className="liquid-glass-bubble w-12 h-12 shrink-0 flex items-center justify-center overflow-hidden">
+                    {rec.avatar ? (
+                      <img
+                        src={rec.avatar}
+                        alt={rec.name}
+                        className="w-full h-full object-cover relative z-10 rounded-full"
+                      />
+                    ) : (
+                      <span className="text-lg opacity-60 relative z-10">
+                        {rec.name.charAt(0)}
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="liquid-glass-text text-base font-semibold">
+                      {rec.name}
+                    </h3>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      {rec.companyLogo && (
+                        <img
+                          src={rec.companyLogo}
+                          alt={rec.company}
+                          className="w-4 h-4 object-contain rounded"
+                        />
+                      )}
+                      <p className="text-white/50 text-xs">
+                        {rec.role} @ {rec.company}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-white/70 text-xs mt-3 leading-relaxed italic">
+                  "{rec.message}"
+                </p>
+              </GlassPanel>
+            )}
+          />
+        </section>
+
         {/* --- CONTACT --- */}
         <section className="px-5 py-16">
           <LiquidGlassText as="h2" className="text-xl font-semibold mb-6 text-center">
@@ -227,7 +287,10 @@ export default function HorizontalScroll() {
           data-anim="hero-content"
           className="flex flex-col items-center text-center gap-6"
         >
-          <div className="liquid-glass-bubble w-48 h-48 flex items-center justify-center overflow-hidden">
+          <div
+            className="liquid-glass-bubble w-48 h-48 flex items-center justify-center overflow-hidden cursor-pointer"
+            onClick={handleAvatarClick}
+          >
             {personal.avatar ? (
               <img
                 src={personal.avatar}
@@ -268,11 +331,27 @@ export default function HorizontalScroll() {
         <div data-anim="about-content" className="w-full max-w-4xl mx-auto">
           <Tilt maxTilt={4} scale={1.01}>
             <GlassPanel variant="elevated">
-              <p className="text-white/80 leading-relaxed text-xl">
+              <RevealText
+                className="text-white/80 leading-relaxed text-xl"
+                highlightWords={['frontend', 'Web Horizon', 'Python', 'React', 'automação']}
+              >
                 {personal.bio}
-              </p>
+              </RevealText>
             </GlassPanel>
           </Tilt>
+        </div>
+      </section>
+
+      {/* --- SKILLS --- */}
+      <section
+        id="skills"
+        className="relative min-h-screen flex items-center justify-center px-8 py-24"
+      >
+        <div data-anim="skills-content" className="w-full max-w-5xl mx-auto text-center">
+          <LiquidGlassText as="h2" className="text-5xl font-semibold mb-12">
+            Habilidades
+          </LiquidGlassText>
+          <SkillsVisualization skills={skills} />
         </div>
       </section>
 
@@ -315,11 +394,13 @@ export default function HorizontalScroll() {
 
       {/* --- HORIZONTAL ZONE --- */}
       <div ref={wrapperRef} className="relative h-screen overflow-hidden">
-        <div ref={trackRef} className="flex h-screen will-change-transform">
+        <div ref={trackRef} className="flex h-screen will-change-transform" style={{ width: 'max-content' }}>
           {/* EXPERIENCE */}
           <section
+            id="experience"
             data-h-section
-            className="shrink-0 w-screen h-screen flex items-center justify-center px-16 lg:px-24"
+            className="shrink-0 h-screen flex items-center justify-center px-16 lg:px-24"
+            style={{ width: '100vw', minWidth: '100vw' }}
             aria-label="Experiência"
           >
             <div className="w-full max-w-6xl">
@@ -336,8 +417,10 @@ export default function HorizontalScroll() {
 
           {/* PROJECTS */}
           <section
+            id="projects"
             data-h-section
-            className="shrink-0 w-screen h-screen flex items-center justify-center px-16 lg:px-24"
+            className="shrink-0 h-screen flex items-center justify-center px-16 lg:px-24"
+            style={{ width: '100vw', minWidth: '100vw' }}
             aria-label="Projetos"
           >
             <div className="w-full max-w-6xl">
@@ -346,7 +429,7 @@ export default function HorizontalScroll() {
                   Projetos
                 </LiquidGlassText>
               </div>
-              <div className="grid grid-cols-2 gap-5">
+              <div className="grid grid-cols-2 gap-6">
                 {projects.map((project) => (
                   <div key={project.id} data-h-item>
                     <a
@@ -356,27 +439,13 @@ export default function HorizontalScroll() {
                       className="block"
                       {...clickSoundProps}
                     >
-                      <Tilt maxTilt={6} scale={1.02}>
-                        <GlassCard
-                          title={project.title}
-                          expandable
-                          compact
-                          footer={
-                            <div className="flex flex-wrap gap-1.5">
-                              {project.technologies.map((tech) => (
-                                <span
-                                  key={tech}
-                                  className="liquid-glass-subtle text-[11px] px-2 py-1 rounded-full text-white/70"
-                                >
-                                  {tech}
-                                </span>
-                              ))}
-                            </div>
-                          }
-                        >
-                          {project.description}
-                        </GlassCard>
-                      </Tilt>
+                      <ProjectCard3D
+                        title={project.title}
+                        description={project.description}
+                        technologies={project.technologies}
+                        link={project.link}
+                        image={project.image}
+                      />
                     </a>
                   </div>
                 ))}
@@ -384,10 +453,75 @@ export default function HorizontalScroll() {
             </div>
           </section>
 
+          {/* RECOMMENDATIONS */}
+          <section
+            id="recommendations"
+            data-h-section
+            className="shrink-0 h-screen flex items-center justify-center px-16 lg:px-24"
+            style={{ width: '100vw', minWidth: '100vw' }}
+            aria-label="Recomendações"
+          >
+            <div className="w-full max-w-5xl">
+              <div data-h-heading>
+                <LiquidGlassText as="h2" className="text-5xl font-semibold mb-12 text-center">
+                  Recomendações
+                </LiquidGlassText>
+              </div>
+              <div data-h-item>
+                <Carousel3D
+                  items={recommendations}
+                  autoRotate
+                  autoRotateInterval={6000}
+                  renderItem={(rec, isActive) => (
+                    <GlassPanel variant={isActive ? 'elevated' : 'default'}>
+                      <div className="flex items-start gap-6">
+                        <div className="liquid-glass-bubble w-20 h-20 shrink-0 flex items-center justify-center overflow-hidden">
+                          {rec.avatar ? (
+                            <img
+                              src={rec.avatar}
+                              alt={rec.name}
+                              className="w-full h-full object-cover relative z-10 rounded-full"
+                            />
+                          ) : (
+                            <span className="text-2xl opacity-60 relative z-10">
+                              {rec.name.charAt(0)}
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="liquid-glass-text text-2xl font-semibold">
+                            {rec.name}
+                          </h3>
+                          <div className="flex items-center gap-3 mt-1">
+                            {rec.companyLogo && (
+                              <img
+                                src={rec.companyLogo}
+                                alt={rec.company}
+                                className="w-6 h-6 object-contain rounded"
+                              />
+                            )}
+                            <p className="text-white/50 text-base">
+                              {rec.role} @ {rec.company}
+                            </p>
+                          </div>
+                          <p className="text-white/70 text-lg mt-4 leading-relaxed italic">
+                            "{rec.message}"
+                          </p>
+                        </div>
+                      </div>
+                    </GlassPanel>
+                  )}
+                />
+              </div>
+            </div>
+          </section>
+
           {/* CONTACT */}
           <section
+            id="contact"
             data-h-section
-            className="shrink-0 w-screen h-screen flex items-center justify-center px-16 lg:px-24"
+            className="shrink-0 h-screen flex items-center justify-center px-16 lg:px-24"
+            style={{ width: '100vw', minWidth: '100vw' }}
             aria-label="Contato"
           >
             <div className="text-center">

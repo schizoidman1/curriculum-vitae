@@ -103,7 +103,18 @@ export default function Timeline({ items = [] }) {
               <div className="timeline-card flex-1 min-w-0">
                 <GlassCard
                   title={item.role}
-                  subtitle={`${item.company} · ${item.period}`}
+                  subtitle={
+                    <span className="flex items-center gap-2">
+                      {item.companyLogo && (
+                        <img
+                          src={item.companyLogo}
+                          alt={item.company}
+                          className="w-4 h-4 object-contain rounded"
+                        />
+                      )}
+                      {item.company} · {item.period}
+                    </span>
+                  }
                   footer={
                     <div className="flex flex-wrap gap-1.5">
                       {item.technologies.map((tech) => (
@@ -188,7 +199,18 @@ export default function Timeline({ items = [] }) {
               <div className="timeline-card w-full">
                 <GlassCard
                   title={item.role}
-                  subtitle={`${item.company} · ${item.period}`}
+                  subtitle={
+                    <span className="flex items-center gap-2">
+                      {item.companyLogo && (
+                        <img
+                          src={item.companyLogo}
+                          alt={item.company}
+                          className="w-5 h-5 object-contain rounded"
+                        />
+                      )}
+                      {item.company} · {item.period}
+                    </span>
+                  }
                   footer={
                     <div className="flex flex-wrap gap-2">
                       {item.technologies.map((tech) => (

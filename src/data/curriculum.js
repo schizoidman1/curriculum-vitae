@@ -16,6 +16,11 @@ const curriculum = {
       linkedin: 'https://www.linkedin.com/in/lucca-quintas-b51224217/',
       instagram: 'https://www.instagram.com/luccaqnts/',
     },
+    availability: {
+      available: true,
+      type: 'both', // 'freelance' | 'fulltime' | 'both'
+      message: 'Estou aberto a novas oportunidades de trabalho, seja como freelancer ou em regime CLT/PJ. Vamos conversar sobre como posso agregar valor ao seu projeto!',
+    },
   },
 
   experience: [
@@ -23,6 +28,7 @@ const curriculum = {
       id: 'exp-1',
       role: 'Estagiário de Tecnologia',
       company: 'ArcelorMittal',
+      companyLogo: '/affiliations/arcelormittal.png',
       year: '2024',
       period: '1 ano e 4 meses',
       description:
@@ -34,6 +40,7 @@ const curriculum = {
       id: 'exp-2',
       role: 'Desenvolvedor Frontend & Sócio',
       company: 'Web Horizon',
+      companyLogo: '/affiliations/webhorizon.png',
       year: '2025',
       period: 'Atual',
       description:
@@ -141,6 +148,50 @@ const curriculum = {
       id: 'aff-2',
       name: 'Web Horizon',
       image: '/affiliations/webhorizon.png',
+    },
+  ],
+
+  /** Recommendations from colleagues and partners */
+  recommendations: [
+    {
+      id: 'rec-1',
+      name: 'Caio Rosa',
+      role: 'Cloud Architect Jr',
+      company: 'TRUST IMAGE',
+      avatar: '/recommendations/caio-rosa.png',
+      companyLogo: '/affiliations/trustimage.png',
+      message:
+        'Trabalhar com o Lucca foi uma experiência ótima, é uma pessoa dedicada, focada, gosta de aprender e aberta ao diálogo. Evoluiu muito em pouco tempo e sabe se adaptar ao ambiente em que é exposto, quando tecnologias e metodologias já estão em vigor, sempre com uma entrega eficiente.',
+    },
+    {
+      id: 'rec-2',
+      name: 'Gabriel Figueiredo',
+      role: 'Automation Specialist',
+      company: 'ArcelorMittal',
+      avatar: '/recommendations/gabriel-figueiredo.png',
+      companyLogo: '/affiliations/arcelormittal.png',
+      message:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lucca é um profissional excepcional, sempre entregando resultados de alta qualidade. Sua capacidade de resolver problemas complexos e trabalhar em equipe é admirável.',
+    },
+    {
+      id: 'rec-3',
+      name: 'Fabio Feu Rosa',
+      role: 'Senior IT Project Manager',
+      company: 'ArcelorMittal',
+      avatar: '/recommendations/fabio-rosa.png',
+      companyLogo: '/affiliations/arcelormittal.png',
+      message:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lucca demonstrou grande capacidade técnica e comprometimento durante sua passagem pela equipe. Um profissional promissor com excelente potencial de crescimento.',
+    },
+    {
+      id: 'rec-4',
+      name: 'Leandro Ramos',
+      role: 'Automation and Process Control Specialist',
+      company: 'ArcelorMittal',
+      avatar: '/recommendations/leandro-ramos.png',
+      companyLogo: '/affiliations/arcelormittal.png',
+      message:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tive o prazer de trabalhar com Lucca e posso afirmar que é um profissional dedicado, criativo e sempre disposto a aprender novas tecnologias.',
     },
   ],
 }

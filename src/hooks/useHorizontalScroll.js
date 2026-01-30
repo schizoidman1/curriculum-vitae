@@ -38,133 +38,139 @@ export default function useHorizontalScroll(enabled = false) {
   useEffect(() => {
     if (!enabled) return
 
-    let frameId = requestAnimationFrame(() => {
-      frameId = requestAnimationFrame(() => {
-        const wrapper = wrapperRef.current
-        const track = trackRef.current
-        if (!wrapper || !track) return
+    // Wait for DOM to be fully painted before calculating scroll distances
+    const timeoutId = setTimeout(() => {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          const wrapper = wrapperRef.current
+          const track = trackRef.current
+          if (!wrapper || !track) return
 
-        const distance = track.scrollWidth - window.innerWidth
-        if (distance <= 0) return
+          // Force layout recalculation
+          const sections = track.querySelectorAll('[data-h-section]')
+          const totalWidth = sections.length * window.innerWidth
+          const distance = Math.max(totalWidth - window.innerWidth, track.scrollWidth - window.innerWidth)
+          if (distance <= 0) return
 
-        const ctx = gsap.context(() => {
-          // --- Vertical section entrance animations ---
+          const ctx = gsap.context(() => {
+            // --- Vertical section entrance animations ---
 
-          // Hero: parallax text float + fade
-          gsap.fromTo(
-            '[data-anim="hero-content"]',
-            { y: 0, opacity: 1 },
-            {
-              y: -80,
-              opacity: 0,
+            // Hero: parallax text float + fade
+            gsap.fromTo(
+              '[data-anim="hero-content"]',
+              { y: 0, opacity: 1 },
+              {
+                y: -80,
+                opacity: 0,
+                ease: 'none',
+                scrollTrigger: {
+                  trigger: '#hero',
+                  start: 'top top',
+                  end: 'bottom top',
+                  scrub: true,
+                },
+              }
+            )
+
+            // About: slide up + fade in
+            gsap.fromTo(
+              '[data-anim="about-content"]',
+              { y: 100, opacity: 0 },
+              {
+                y: 0,
+                opacity: 1,
+                ease: 'power2.out',
+                scrollTrigger: {
+                  trigger: '#about',
+                  start: 'top 80%',
+                  end: 'top 30%',
+                  scrub: true,
+                },
+              }
+            )
+
+            // --- Horizontal scroll ---
+            const horizontalTween = gsap.to(track, {
+              x: -distance,
               ease: 'none',
               scrollTrigger: {
-                trigger: '#hero',
-                start: 'top top',
-                end: 'bottom top',
-                scrub: true,
-              },
-            }
-          )
-
-          // About: slide up + fade in
-          gsap.fromTo(
-            '[data-anim="about-content"]',
-            { y: 100, opacity: 0 },
-            {
-              y: 0,
-              opacity: 1,
-              ease: 'power2.out',
-              scrollTrigger: {
-                trigger: '#about',
-                start: 'top 80%',
-                end: 'top 30%',
-                scrub: true,
-              },
-            }
-          )
-
-          // --- Horizontal scroll ---
-          const horizontalTween = gsap.to(track, {
-            x: -distance,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: wrapper,
-              pin: true,
-              scrub: 1,
-              end: () => `+=${distance}`,
-              invalidateOnRefresh: true,
-              onUpdate: (self) => setScrollProgress(self.progress),
-            },
-          })
-
-          // --- Per-section stagger entrance animations ---
-          track.querySelectorAll('[data-h-section]').forEach((section) => {
-            const heading = section.querySelector('[data-h-heading]')
-            const items = section.querySelectorAll('[data-h-item]')
-
-            // Play whoosh sound when section enters
-            ScrollTrigger.create({
-              trigger: section,
-              containerAnimation: horizontalTween,
-              start: 'left 80%',
-              onEnter: () => {
-                if (useAppStore.getState().audioEnabled) {
-                  getWhoosh().play()
-                }
+                trigger: wrapper,
+                pin: true,
+                scrub: 1,
+                end: () => `+=${distance}`,
+                invalidateOnRefresh: true,
+                onUpdate: (self) => setScrollProgress(self.progress),
               },
             })
 
-            // Heading: slide up + fade
-            if (heading) {
-              gsap.fromTo(
-                heading,
-                { y: 40, opacity: 0 },
-                {
-                  y: 0,
-                  opacity: 1,
-                  duration: 0.8,
-                  ease: 'power3.out',
-                  scrollTrigger: {
-                    trigger: section,
-                    containerAnimation: horizontalTween,
-                    start: 'left 80%',
-                    toggleActions: 'play none none reverse',
-                  },
-                }
-              )
-            }
+            // --- Per-section stagger entrance animations ---
+            track.querySelectorAll('[data-h-section]').forEach((section) => {
+              const heading = section.querySelector('[data-h-heading]')
+              const items = section.querySelectorAll('[data-h-item]')
 
-            // Items: stagger in
-            if (items.length) {
-              gsap.fromTo(
-                items,
-                { y: 50, opacity: 0, scale: 0.95 },
-                {
-                  y: 0,
-                  opacity: 1,
-                  scale: 1,
-                  duration: 0.7,
-                  stagger: 0.1,
-                  ease: 'power3.out',
-                  scrollTrigger: {
-                    trigger: section,
-                    containerAnimation: horizontalTween,
-                    start: 'left 70%',
-                    toggleActions: 'play none none reverse',
-                  },
-                }
-              )
-            }
+              // Play whoosh sound when section enters
+              ScrollTrigger.create({
+                trigger: section,
+                containerAnimation: horizontalTween,
+                start: 'left 80%',
+                onEnter: () => {
+                  if (useAppStore.getState().audioEnabled) {
+                    getWhoosh().play()
+                  }
+                },
+              })
+
+              // Heading: slide up + fade
+              if (heading) {
+                gsap.fromTo(
+                  heading,
+                  { y: 40, opacity: 0 },
+                  {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.8,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                      trigger: section,
+                      containerAnimation: horizontalTween,
+                      start: 'left 80%',
+                      toggleActions: 'play none none reverse',
+                    },
+                  }
+                )
+              }
+
+              // Items: stagger in
+              if (items.length) {
+                gsap.fromTo(
+                  items,
+                  { y: 50, opacity: 0, scale: 0.95 },
+                  {
+                    y: 0,
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.7,
+                    stagger: 0.1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                      trigger: section,
+                      containerAnimation: horizontalTween,
+                      start: 'left 70%',
+                      toggleActions: 'play none none reverse',
+                    },
+                  }
+                )
+              }
+            })
           })
-        })
 
-        wrapper._gsapCtx = ctx
+          wrapper._gsapCtx = ctx
+        })
       })
-    })
+    }, 100)
 
     return () => {
-      cancelAnimationFrame(frameId)
+      clearTimeout(timeoutId)
       wrapperRef.current?._gsapCtx?.revert()
       ScrollTrigger.refresh()
     }
