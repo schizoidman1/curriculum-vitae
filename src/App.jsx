@@ -80,6 +80,9 @@ export default function App() {
             available={curriculum.personal.availability.available}
             type={curriculum.personal.availability.type}
             message={curriculum.personal.availability.message}
+            email={curriculum.personal.emails[0]}
+            linkedin={curriculum.personal.social.linkedin}
+            github={curriculum.personal.social.github}
           />
         </>
       )}

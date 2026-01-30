@@ -86,7 +86,7 @@ export default function FloatingNav() {
 
   return (
     <nav
-      className={`fixed right-6 top-1/2 -translate-y-1/2 z-50 transition-all duration-500 ${
+      className={`hidden md:block fixed right-6 top-1/2 -translate-y-1/2 z-50 transition-all duration-500 ${
         isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
       }`}
       aria-label="Navegação rápida"
