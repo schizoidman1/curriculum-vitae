@@ -33,7 +33,7 @@ const HorizontalScroll = lazy(() =>
 export default function App() {
   const phase = useAppStore((s) => s.phase)
   const [isLoading, setIsLoading] = useState(true)
-  const { activeEgg } = useEasterEggs()
+  const { activeEgg, konamiUnlocked } = useEasterEggs()
 
   // Enable keyboard navigation during curriculum phase
   useKeyboardNav(phase === PHASES.CURRICULUM)
@@ -66,7 +66,7 @@ export default function App() {
       {phase === PHASES.CURRICULUM && <ParallaxLayers />}
 
       {/* Easter egg effects */}
-      <EasterEggEffects activeEgg={activeEgg} />
+      <EasterEggEffects activeEgg={activeEgg} konamiUnlocked={konamiUnlocked} />
 
       {/* UI controls (curriculum phase only) */}
       {phase === PHASES.CURRICULUM && (

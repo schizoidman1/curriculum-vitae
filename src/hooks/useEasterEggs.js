@@ -22,6 +22,7 @@ export default function useEasterEggs() {
   const [matrixBuffer, setMatrixBuffer] = useState('')
   const [avatarClicks, setAvatarClicks] = useState(0)
   const [activeEgg, setActiveEgg] = useState(null)
+  const [konamiUnlocked, setKonamiUnlocked] = useState(false)
 
   // Reset active egg after duration
   const triggerEgg = useCallback((eggName, duration = 5000) => {
@@ -40,6 +41,7 @@ export default function useEasterEggs() {
         const nextIndex = konamiIndex + 1
         if (nextIndex === KONAMI_CODE.length) {
           triggerEgg('konami', 8000)
+          setKonamiUnlocked(true)
           setKonamiIndex(0)
         } else {
           setKonamiIndex(nextIndex)
@@ -84,6 +86,7 @@ export default function useEasterEggs() {
 
   return {
     activeEgg,
+    konamiUnlocked,
     handleAvatarClick,
   }
 }
