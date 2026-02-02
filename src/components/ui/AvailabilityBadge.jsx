@@ -44,12 +44,12 @@ export default function AvailabilityBadge({
       {/* Fixed badge */}
       <button
         onClick={() => setIsExpanded(true)}
-        className="fixed top-4 right-0 mr-4 md:top-6 md:mr-6 z-[100] liquid-glass-subtle px-3 py-2 md:px-4 rounded-full flex items-center gap-2 md:gap-3 hover:scale-105 active:scale-95 transition-transform group max-w-[calc(100vw-2rem)]"
+        className="fixed top-4 right-0 mr-4 md:top-6 md:mr-6 z-100 liquid-glass-subtle px-3 py-2 md:px-4 rounded-full flex items-center gap-2 md:gap-3 hover:scale-105 active:scale-95 transition-transform group max-w-[calc(100vw-2rem)]"
         style={{ touchAction: 'manipulation' }}
         aria-label="Ver disponibilidade"
       >
         {/* Pulsing dot */}
-        <span className="relative flex h-3 w-3 flex-shrink-0">
+        <span className="relative flex h-3 w-3 shrink-0">
           <span
             className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${status.color}`}
           />
@@ -67,7 +67,7 @@ export default function AvailabilityBadge({
       {/* Expanded modal */}
       {isExpanded && (
         <div
-          className="fixed inset-0 z-[150] flex items-center justify-center p-4"
+          className="fixed inset-0 z-150 flex items-center justify-center p-4"
           onClick={() => setIsExpanded(false)}
         >
           {/* Backdrop */}
@@ -90,7 +90,7 @@ export default function AvailabilityBadge({
             {/* Status header */}
             <div className="flex items-center gap-3 md:gap-4 mb-5 md:mb-6">
               <div
-                className={`w-12 h-12 md:w-16 md:h-16 rounded-full ${status.color} bg-opacity-20 flex items-center justify-center flex-shrink-0`}
+                className={`w-12 h-12 md:w-16 md:h-16 rounded-full ${status.color} bg-opacity-20 flex items-center justify-center shrink-0`}
                 style={{ boxShadow: `0 0 30px ${status.glowColor}` }}
               >
                 <Icon size={24} className="text-white md:hidden" />
@@ -117,7 +117,7 @@ export default function AvailabilityBadge({
                     href={`mailto:${email}`}
                     className="flex items-center gap-3 liquid-glass-subtle px-4 py-3 rounded-xl text-white/80 hover:text-white active:scale-[0.98] hover:scale-[1.02] transition-all"
                   >
-                    <Mail size={20} className="flex-shrink-0" />
+                    <Mail size={20} className="shrink-0" />
                     <span className="text-sm truncate">{email}</span>
                   </a>
                 )}
@@ -128,7 +128,7 @@ export default function AvailabilityBadge({
                     rel="noopener noreferrer"
                     className="flex items-center gap-3 liquid-glass-subtle px-4 py-3 rounded-xl text-white/80 hover:text-white active:scale-[0.98] hover:scale-[1.02] transition-all"
                   >
-                    <Linkedin size={20} className="flex-shrink-0" />
+                    <Linkedin size={20} className="shrink-0" />
                     <span className="text-sm">LinkedIn</span>
                   </a>
                 )}
@@ -139,7 +139,7 @@ export default function AvailabilityBadge({
                     rel="noopener noreferrer"
                     className="flex items-center gap-3 liquid-glass-subtle px-4 py-3 rounded-xl text-white/80 hover:text-white active:scale-[0.98] hover:scale-[1.02] transition-all"
                   >
-                    <Github size={20} className="flex-shrink-0" />
+                    <Github size={20} className="shrink-0" />
                     <span className="text-sm">GitHub</span>
                   </a>
                 )}

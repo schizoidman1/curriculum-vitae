@@ -294,7 +294,7 @@ export default function EasterEggEffects({ activeEgg, konamiUnlocked }) {
               <span className="text-red-400 text-sm font-bold w-8">HP</span>
               <div className="w-48 h-5 bg-black/60 rounded-full overflow-hidden border border-red-500/50">
                 <div
-                  className="h-full bg-gradient-to-r from-red-600 to-red-400 rounded-full"
+                  className="h-full bg-linear-to-r from-red-600 to-red-400 rounded-full"
                   style={{ width: '100%' }}
                 />
               </div>
@@ -306,7 +306,7 @@ export default function EasterEggEffects({ activeEgg, konamiUnlocked }) {
               <span className="text-blue-400 text-sm font-bold w-8">MP</span>
               <div className="w-48 h-5 bg-black/60 rounded-full overflow-hidden border border-blue-500/50">
                 <div
-                  className="h-full bg-gradient-to-r from-blue-600 to-blue-400 rounded-full"
+                  className="h-full bg-linear-to-r from-blue-600 to-blue-400 rounded-full"
                   style={{ width: '100%' }}
                 />
               </div>

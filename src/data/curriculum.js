@@ -160,6 +160,7 @@ const curriculum = {
       company: 'TRUST IMAGE',
       avatar: '/recommendations/caio-rosa.png',
       companyLogo: '/affiliations/trustimage.png',
+      companyLink: 'https://www.linkedin.com/company/trustimage/',
       message:
         'Trabalhar com o Lucca foi uma experiência ótima, é uma pessoa dedicada, focada, gosta de aprender e aberta ao diálogo. Evoluiu muito em pouco tempo e sabe se adaptar ao ambiente em que é exposto, quando tecnologias e metodologias já estão em vigor, sempre com uma entrega eficiente.',
     },
@@ -170,8 +171,9 @@ const curriculum = {
       company: 'ArcelorMittal',
       avatar: '/recommendations/gabriel-figueiredo.png',
       companyLogo: '/affiliations/arcelormittal.png',
+      companyLink: 'https://www.linkedin.com/company/arcelormittal/',
       message:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lucca é um profissional excepcional, sempre entregando resultados de alta qualidade. Sua capacidade de resolver problemas complexos e trabalhar em equipe é admirável.',
+        "Tive a oportunidade de acompanhar de perto a evolução do Lucca durante seu período de estágio na unidade de Tubarão da ArcelorMittal Brasil. Ao longo desse tempo, ele se destacou pela dedicação, pelo genuíno interesse pelo negócio e pela facilidade em aprender e se integrar às equipes. Demonstrou proatividade ao se colocar à disposição para diferentes atividades e ao propor soluções de forma consistente. Além de sólidas habilidades técnicas, o Lucca possui competências interpessoais altamente desejáveis para qualquer profissional da área de tecnologia. Espero que no futuro possamos ter a oportunidade de trabalhar juntos na mesma equipe.",
     },
     {
       id: 'rec-3',
@@ -180,6 +182,7 @@ const curriculum = {
       company: 'ArcelorMittal',
       avatar: '/recommendations/fabio-rosa.png',
       companyLogo: '/affiliations/arcelormittal.png',
+      companyLink: 'https://www.linkedin.com/company/arcelormittal/',
       message:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lucca demonstrou grande capacidade técnica e comprometimento durante sua passagem pela equipe. Um profissional promissor com excelente potencial de crescimento.',
     },
@@ -190,6 +193,7 @@ const curriculum = {
       company: 'ArcelorMittal',
       avatar: '/recommendations/leandro-ramos.png',
       companyLogo: '/affiliations/arcelormittal.png',
+      companyLink: 'https://www.linkedin.com/company/arcelormittal/',
       message:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tive o prazer de trabalhar com Lucca e posso afirmar que é um profissional dedicado, criativo e sempre disposto a aprender novas tecnologias.',
     },

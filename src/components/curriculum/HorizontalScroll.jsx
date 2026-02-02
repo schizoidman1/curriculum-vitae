@@ -212,6 +212,7 @@ export default function HorizontalScroll() {
                         <img
                           src={rec.companyLogo}
                           alt={rec.company}
+                          onClick={() => window.open(rec.companyLink, '_blank')}
                           className="w-4 h-4 object-contain rounded"
                         />
                       )}
@@ -287,10 +288,7 @@ export default function HorizontalScroll() {
           data-anim="hero-content"
           className="flex flex-col items-center text-center gap-6"
         >
-          <div
-            className="liquid-glass-bubble w-48 h-48 flex items-center justify-center overflow-hidden cursor-pointer"
-            onClick={handleAvatarClick}
-          >
+          <div className="liquid-glass-bubble w-48 h-48 flex items-center justify-center overflow-hidden">
             {personal.avatar ? (
               <img
                 src={personal.avatar}

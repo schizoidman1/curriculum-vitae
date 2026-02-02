@@ -19,7 +19,11 @@ import useAudio from '../../hooks/useAudio'
 export default function MergedBubble({ visible = false, scale = 1, onClick }) {
   const meshRef = useRef()
   const hovered = useRef(false)
+  const canPlayHoverSound = useRef(true)
+  const hoverSoundTimeout = useRef(null)
   const { playSfx } = useAudio()
+
+  const HOVER_SOUND_DEBOUNCE_MS = 5000
 
   // Responsive base scale
   const [baseScale, setBaseScale] = useState(2.5)
@@ -32,6 +36,10 @@ export default function MergedBubble({ visible = false, scale = 1, onClick }) {
     updateScale()
     window.addEventListener('resize', updateScale)
     return () => window.removeEventListener('resize', updateScale)
+  }, [])
+
+  useEffect(() => {
+    return () => clearTimeout(hoverSoundTimeout.current)
   }, [])
 
   const uniforms = useMemo(
@@ -82,7 +90,14 @@ export default function MergedBubble({ visible = false, scale = 1, onClick }) {
         onPointerOver={() => {
           hovered.current = true
           document.body.style.cursor = 'pointer'
-          playSfx('hoverBubble', 0.3)
+          if (canPlayHoverSound.current) {
+            playSfx('hoverBubble', 0.3)
+            canPlayHoverSound.current = false
+            clearTimeout(hoverSoundTimeout.current)
+            hoverSoundTimeout.current = setTimeout(() => {
+              canPlayHoverSound.current = true
+            }, HOVER_SOUND_DEBOUNCE_MS)
+          }
         }}
         onPointerOut={() => {
           hovered.current = false
