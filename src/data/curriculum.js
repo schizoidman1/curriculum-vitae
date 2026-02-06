@@ -173,29 +173,7 @@ const curriculum = {
       companyLogo: '/affiliations/arcelormittal.png',
       companyLink: 'https://www.linkedin.com/company/arcelormittal/',
       message:
-        "Tive a oportunidade de acompanhar de perto a evolução do Lucca durante seu período de estágio na unidade de Tubarão da ArcelorMittal Brasil. Ao longo desse tempo, ele se destacou pela dedicação, pelo genuíno interesse pelo negócio e pela facilidade em aprender e se integrar às equipes. Demonstrou proatividade ao se colocar à disposição para diferentes atividades e ao propor soluções de forma consistente. Além de sólidas habilidades técnicas, o Lucca possui competências interpessoais altamente desejáveis para qualquer profissional da área de tecnologia. Espero que no futuro possamos ter a oportunidade de trabalhar juntos na mesma equipe.",
-    },
-    {
-      id: 'rec-3',
-      name: 'Fabio Feu Rosa',
-      role: 'Senior IT Project Manager',
-      company: 'ArcelorMittal',
-      avatar: '/recommendations/fabio-rosa.png',
-      companyLogo: '/affiliations/arcelormittal.png',
-      companyLink: 'https://www.linkedin.com/company/arcelormittal/',
-      message:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lucca demonstrou grande capacidade técnica e comprometimento durante sua passagem pela equipe. Um profissional promissor com excelente potencial de crescimento.',
-    },
-    {
-      id: 'rec-4',
-      name: 'Leandro Ramos',
-      role: 'Automation and Process Control Specialist',
-      company: 'ArcelorMittal',
-      avatar: '/recommendations/leandro-ramos.png',
-      companyLogo: '/affiliations/arcelormittal.png',
-      companyLink: 'https://www.linkedin.com/company/arcelormittal/',
-      message:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tive o prazer de trabalhar com Lucca e posso afirmar que é um profissional dedicado, criativo e sempre disposto a aprender novas tecnologias.',
+        "Tive a oportunidade de acompanhar de perto a evolução do Lucca durante seu período de estágio na unidade de Tubarão da ArcelorMittal Brasil. Ao longo desse tempo, ele se destacou pela dedicação, pelo genuíno interesse pelo negócio e pela facilidade em aprender e se integrar às equipes. Demonstrou proatividade ao se colocar à disposição para diferentes atividades e ao propor soluções de forma consistente.",
     },
   ],
 }
